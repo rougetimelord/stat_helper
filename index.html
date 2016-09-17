@@ -2,10 +2,39 @@
 <head>
     <script src="./stat.js" type="text/javascript" async></script>
     <title>Statistics stuff</title>
+    <style>
+        body {
+            background-color: white;
+        }
+        #res {
+            height: 30em;
+            margin-top: 7px;
+            overflow-y: auto;
+        }
+        #res p {
+            margin: .3em;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+        #control {
+            margin: 0;
+        }
+    </style>
+    <script>
+        function scroller() {
+            var el = document.getElementById('res');
+            el.scrollTop = el.scrollHeight;
+        }
+    </script>
 </head>
 <body>
-    <input type="text" id="inp" placeholder="Seperate numbers with commas" />
-    <input type="button" value="Go" id="btn" />
+    <div id="control">
+        <input type="text" id="inp" placeholder="Seperate numbers with commas" />
+        <input type="button" value="Min/1Q/Med/3Q/Max" id="btn" />
+        <input type="button" value="Outliers" id="btn1" />
+        <input type="button" value="Mean/Mode" id="btn2" />
+    </div>
     <div id="res">
     </div>
 </body>
