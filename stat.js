@@ -107,6 +107,9 @@ var stOps = {
         var mean = arrOps.mean;
         var mode = arrOps.mode;
         output('p', ar2Str([mean, ar2Str(mode)]), 'array');
+    },
+    arrange: function () {
+        output('p', ar2Str(arrOps.arrA), 'array');
     }
 }
 var ar2Str = function (a) {
@@ -132,5 +135,6 @@ var init = function () {
     document.getElementById('btn').addEventListener("click", stOps.bWdat);
     document.getElementById('btn1').addEventListener("click", stOps.outliers);
     document.getElementById('btn2').addEventListener("click", stOps.meanMode);
+    document.getElementById('btn3').addEventListener("click", stOps.arrange)
 }
 setTimeout(init, 100);
