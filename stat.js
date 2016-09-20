@@ -35,8 +35,10 @@ var arrOps = {
                 max = res[i][1];
                 res2.push(res[i][0]);
             }
-            if (i < res.length - 1 && res[i][1] != res[i + 1][1])
+            if (i < res.length - 1 && res[i][1] != res[i + 1][1]) {
                 all = !1;
+                break;
+            }
         }
         if (all)
             res2 = ["No mode"];
