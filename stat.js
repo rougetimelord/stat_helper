@@ -23,7 +23,7 @@ Array.prototype.equals = function (array) {
 }
 
 var _run = 0;
-var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null };
+var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array() };
 var arrOps = {
     get arrA() {
         var str = document.getElementById('inp').value.split(',').map(Number);
@@ -33,7 +33,7 @@ var arrOps = {
         }
         else {
             console.log("New data");
-            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null };
+            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array() };
             dataSet.array = arr;
             return arr;
         }
@@ -90,6 +90,22 @@ var arrOps = {
         }
         else
             return dataSet.mode;
+    },
+    get stdDev() {
+        if (dataSet.stdDev !== null)
+            return dataSet.stdDev;
+        else {
+            console.log("Std. dev. getter called")
+            var a = arrOps.arrA;
+            var mean = arrOps.mean, variSum = 0, res;
+            for (var i = 0; i < a.length; i++) {
+                var diffSq = Math.pow(a[i] - mean, 2);
+                variSum += diffSq;
+            }
+            res = Math.sqrt(variSum / (a.length - 1));
+            dataSet.stdDev = res;
+            return res;
+        }
     },
     median: function (a) {
         console.log("Median getter called")
@@ -202,6 +218,9 @@ var stOps = {
     },
     arrange: function () {
         output('p', ar2Str(arrOps.arrA), 'array');
+    },
+    stdDev: function () {
+        output('p', arrOps.stdDev, 'number');
     }
 }
 var ar2Str = function (a) {
@@ -227,6 +246,7 @@ var init = function () {
     document.getElementById('btn').addEventListener("click", stOps.bWdat);
     document.getElementById('btn1').addEventListener("click", stOps.outliers);
     document.getElementById('btn2').addEventListener("click", stOps.meanMode);
-    document.getElementById('btn3').addEventListener("click", stOps.arrange)
+    document.getElementById('btn3').addEventListener("click", stOps.arrange);
+    document.getElementById('btn4').addEventListener("click", stOps.stdDev);
 }
 setTimeout(init, 100);
