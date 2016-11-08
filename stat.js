@@ -23,7 +23,7 @@ Array.prototype.equals = function (array) {
 }
 
 var _run = 0;
-var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array() };
+var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: null};
 var arrOps = {
     get arrA() {
         var str = document.getElementById('inp').value.split(',').map(Number);
@@ -33,7 +33,7 @@ var arrOps = {
         }
         else {
             console.log("New data");
-            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array() };
+            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array(), zScores: null};
             dataSet.array = arr;
             return arr;
         }
@@ -92,11 +92,11 @@ var arrOps = {
             return dataSet.mode;
     },
     get stdDev() {
+        var a = arrOps.arrA;
         if (dataSet.stdDev !== null)
             return dataSet.stdDev;
         else {
             console.log("Std. dev. getter called")
-            var a = arrOps.arrA;
             var mean = arrOps.mean, variSum = 0, res;
             for (var i = 0; i < a.length; i++) {
                 var diffSq = Math.pow(a[i] - mean, 2);
@@ -106,6 +106,18 @@ var arrOps = {
             dataSet.stdDev = res;
             return res;
         }
+    },
+    get zScore() {
+        var a = arrOps.arrA;
+        if (dataSet.zScores !== null)
+            return dataSet.zScores;
+        var res = new Array(), mew = this.mean, sig = this.stdDev;
+        for (var i = 0; i < a.length; i++) {
+            var t = parseFloat(((a[i] - mew) / sig).toFixed(4));
+            res.push(t);
+        }
+        dataSet.zScores = res;
+        return res;
     },
     median: function (a) {
         console.log("Median getter called")
@@ -221,6 +233,10 @@ var stOps = {
     },
     stdDev: function () {
         output('p', arrOps.stdDev, 'number');
+    },
+    zScore: function () {
+        output('p', ar2Str(arrOps.arrA), 'array');
+        output('p', ar2Str(arrOps.zScore), 'array');
     }
 }
 var ar2Str = function (a) {
@@ -248,5 +264,6 @@ var init = function () {
     document.getElementById('btn2').addEventListener("click", stOps.meanMode);
     document.getElementById('btn3').addEventListener("click", stOps.arrange);
     document.getElementById('btn4').addEventListener("click", stOps.stdDev);
+    document.getElementById('btn5').addEventListener("click", stOps.zScore);
 }
 setTimeout(init, 100);
