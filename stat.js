@@ -23,7 +23,7 @@ Array.prototype.equals = function (array) {
 }
 
 var _run = 0;
-var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: null};
+var dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: null, length: null};
 var arrOps = {
     get arrA() {
         var str = document.getElementById('inp').value.split(',').map(Number);
@@ -33,7 +33,7 @@ var arrOps = {
         }
         else {
             console.log("New data");
-            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array(), zScores: null};
+            dataSet = { array: null, min: null, q1: null, med: null, q3: null, max: null, mean: null, mode: null, outliers: null, stdDev: null, zScores: new Array(), zScores: null, length: null};
             dataSet.array = arr;
             return arr;
         }
@@ -128,6 +128,14 @@ var arrOps = {
             var avg = a[half-1] + a[half];
             return { ans: avg/2, half: half, incl: !1 };
         }
+     },
+    get length(){
+        var a = arrOps.arrA;
+        if(!dataset.length){
+            dataset.length = a.length
+            return a.length
+        }
+        return dataset.length
     }
 }
 var stOps = {
@@ -237,7 +245,10 @@ var stOps = {
     zScore: function () {
         output('p', ar2Str(arrOps.arrA), 'array');
         output('p', ar2Str(arrOps.zScore), 'array');
-    }
+    },
+    length: function() {
+        output('p', arr2str(arrOps.length, 'array');
+     }
 }
 var ar2Str = function (a) {
     var result = "[";
